@@ -1,0 +1,69 @@
+<!--
+  Generated template for the CreateAccountPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title text-center>Register Account</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+ 
+<ion-content padding>
+		<ion-list >
+			<ion-item>
+				<ion-label  stacked    color="primary">Name:</ion-label>
+				<ion-input   type="text"  maxlength="50" placeholder="Enter your name and family" [(ngModel)]="name"  name="name"   spellcheck="false" autocapitalize="off"  required>
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label  stacked    color="primary">Email:</ion-label>
+				<ion-input   type="email"  maxlength="50" placeholder="Enter your email" [(ngModel)]="email"  name="email"   spellcheck="false" autocapitalize="off"  required>
+				</ion-input>
+			</ion-item> 
+			<ion-item> 
+				<ion-label  stacked    color="primary">Country:</ion-label>
+				  <ion-select [(ngModel)]="country" multiple="false"  (ionChange)="countrySelected($event)">
+					<ion-option  *ngFor="let countryCode of countries" [value]="countryCode?.country_code">{{countryCode?.country_name}}</ion-option>
+				  </ion-select>
+				
+			</ion-item>
+			<ion-item no-lines>
+				<ion-label  stacked    color="primary">Mobile:</ion-label>
+			</ion-item>
+			<ion-item>
+				<ion-label color="dark" *ngIf="countryCodeNubmer != null " >{{countryCodeNubmer}}</ion-label>
+				<ion-input   type="tel"  maxlength="20" placeholder="Enter your mobile number whit no country code" [(ngModel)]="mobile"  name="mobile" spellcheck="false" autocapitalize="off"
+					required>
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label  stacked    color="primary">sex:</ion-label>
+					  <ion-select [(ngModel)]="sex" multiple="false"  interface="popover">
+						<ion-option  value="1">Male</ion-option>
+						<ion-option  value="2">Female</ion-option>
+						<ion-option  value="3">Bisexual</ion-option>
+					  </ion-select>
+			</ion-item>
+			<ion-item>
+				<ion-label  stacked    color="primary">Password</ion-label>
+				<ion-input   type="password"  maxlength="50" placeholder="Enter your password" [(ngModel)]="pass"  name="pass"  spellcheck="false" autocapitalize="off"  required>
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<ion-label  stacked    color="primary">Password Again</ion-label>
+				<ion-input   type="password"  maxlength="50" placeholder="Enter your password again" [(ngModel)]="passAgain"  name="passAgain"   spellcheck="false" autocapitalize="off"  required>
+				</ion-input>
+			</ion-item>
+			<ion-item>
+				<button  type="submit" ion-button  icon-end   (click)="createAccount()">
+					Create Account
+				</button>
+			</ion-item>		
+		</ion-list>
+
+</ion-content>

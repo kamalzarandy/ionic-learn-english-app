@@ -1,0 +1,215 @@
+<ion-header>
+<ion-navbar no-border-bottom  [(ngModel)]="userPageNav">
+    <ion-segment>
+      <ion-segment-button value="usersetting">
+        Setting
+      </ion-segment-button>
+      <ion-segment-button value="userprofile"   (ionSelect)="loadUserProfile()">
+        Profile
+      </ion-segment-button>
+    </ion-segment>
+  </ion-navbar>
+   
+</ion-header>  
+
+<ion-content>
+	<div [ngSwitch]="userPageNav">
+		<ion-list *ngSwitchCase="'userAccount'">
+			<ion-card>
+				<ion-card-content text-right>
+								<div  class="text_center"   item-center style="text-align:center;direction:rtl">
+									موجودی شما
+									<br/>
+									{{payList?.cash}}
+									( تومان )
+								</div>
+									<div class="text_corner"   float-right (click)='payMoney()' >
+										<img src="assets/imgs/paymoney.png" style="width:40px !important" >
+										<label>شارژ حساب</label>
+									</div>
+									<div class="text_corner"  float-left  (click)='billList()' >
+											<img src="assets/imgs/bill.png" style="width:40px !important"   >
+											<label>دريافتها و پرداختها</label>
+									</div>
+				</ion-card-content>
+			</ion-card>
+			<ion-card>
+				<ion-card-content>
+								<div  class="text_center"   item-center style="text-align:center;direction:rtl">
+									مشاوره سريع
+								</div>
+									<div class="text_corner"   float-right >
+										{{payList?.payConsultationCount}}
+										<br/>
+										<p class="text_corner2">										
+											مورد
+										</p>										
+									</div>
+									<div class="text_corner"  float-left  >
+										{{payList?.payConsultationTime}}
+										<br/>
+										<p class="text_corner2">
+											دقيقه 
+										</p>
+									</div>
+				</ion-card-content>
+			</ion-card>
+			<ion-card>
+				<ion-card-content>
+								<div  class="text_center"   item-center style="text-align:center;direction:rtl">
+									مشاوره رایگان
+								</div>
+									<div class="text_corner"   float-right >
+										{{payList?.freeConsultationCount}}
+										<br/>
+										<p class="text_corner2">										
+											مورد
+										</p>										
+									</div>
+									<div class="text_corner"  float-left  >
+										{{payList?.freeConsultationAnsweredCount}}
+										<br/>
+										<p class="text_corner2">										
+											پاسخ داده شده
+										</p>									
+									</div>
+					</ion-card-content>
+			</ion-card>
+			<ion-card>
+				<ion-card-content>
+								<div  class="text_center"   item-center style="text-align:center;direction:rtl">
+									درآمد کسب شده از جامعه دوستان
+								</div>
+									<div class="text_corner"   float-right >
+										{{payList?.incomCount}}
+										<br/>
+										<p class="text_corner2">										
+											مورد مشاوره
+										</p>										
+									</div>
+									<div class="text_corner"  float-left >
+										{{payList?.incomMoney}}
+										<br/>
+										<p class="text_corner2">										
+											تومان
+										</p>									
+									</div>
+					</ion-card-content>
+			</ion-card>
+			
+		</ion-list>
+	
+	  <ion-list    *ngSwitchCase="'userprofile'">
+			<ion-item text-center>
+				<div  *ngIf="userProfile?.small_image > '' " >
+					<img [src]="small_image" *ngIf="small_image" height="160px"  class="img-thumbnail"   (load)="loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!loaded">
+					<ion-spinner [ngClass]="{'center':true}" *ngIf="!loaded"></ion-spinner>							
+				</div>
+				<button  (click)='presentActionSheet()' ion-fab mini><ion-icon name="ios-image-outline"></ion-icon></button>
+			</ion-item>
+			<ion-item >
+			  <ion-label class="title" stacked>Mobile:</ion-label>
+			  <ion-label>&nbsp;{{userProfile?.mobile}}</ion-label>
+			</ion-item>
+			<ion-item   (click)='setUserName()'>
+			  <ion-label class="title" stacked>Name And Family:</ion-label>
+			  <ion-label>&nbsp;{{userProfile?.lang_far_title}}</ion-label>
+				<button item-end  ion-button clear >
+					<ion-icon  name="ios-create-outline"  ></ion-icon>
+				</button>			  
+			</ion-item>
+			<ion-item  (click)='setSex()'>
+			  <ion-label class="title"  stacked>Sex:</ion-label>
+			  <ion-label> &nbsp;{{sexuality}} </ion-label>
+				<button item-end  ion-button clear > 
+					<ion-icon  name="ios-create-outline"  ></ion-icon>
+				</button>		
+			  </ion-item>
+			<ion-item   (click)='setBirthDate()'>
+			  <ion-label class="title"  stacked>Birth Date:</ion-label>
+			  <ion-label> &nbsp;{{userProfile?.birth_date}} </ion-label>
+				<button item-end  ion-button clear >
+					<ion-icon  name="ios-create-outline"  ></ion-icon>
+				</button>		
+				</ion-item> 
+			<ion-item    (click)='setEmail()'>
+			  <ion-label class="title" stacked>Email:</ion-label>
+			  <ion-label> &nbsp;{{userProfile?.email}} </ion-label>
+				<button item-end  ion-button clear >
+					<ion-icon  name="ios-create-outline"  ></ion-icon>
+				</button>		
+			  </ion-item>
+	  
+	  </ion-list>
+
+	<ion-list *ngSwitchCase="'userIncome'">
+		<ion-item text-wrap  text-right class="warning" >
+			با معرفی رازنامه به دوستان خود درصدی از درآمد کسب شده از محل مشاوره را به خود اختصاص دهید
+			و در اولين مشاوره به دوستان خود تخفیف هدیه کنید<br/>
+			<span class="warning_bold" (click)='showUserIncome()'>
+			     مشاهده شرایط و مقررات
+			</span>
+			<div  style="text-align:justify;direction:rtl" >
+			کد شما {{userCode}} می باشد. دوستان شما می بایست اين کد را از بخش تنظیمات در سیستم معرفی نمایند
+			</div>
+		</ion-item>
+			<ion-item text-wrap  text-right class="warning" >
+				<button ion-button full   text-wrap >تعداد     {{itemCount}}</button>
+			</ion-item>
+
+		<ion-list  style="margin:0px;padding:0px;" *ngFor="let item of userList" >
+			<ion-item no-lines>
+				<ion-avatar  item-end>
+					<img src="{{item?.small_image}}"  (load)="item.loaded = true" [ngClass]="{'img-loaded':loaded}" [hidden]="!item.loaded">
+					<ion-spinner [ngClass]="{'center':true}" *ngIf="!item.loaded"></ion-spinner>
+				</ion-avatar >
+					<h1  align="right">{{item?.userTitle}}</h1>
+					<h3 align="right">تاريخ معرفی {{item?.jsubmit_date}} </h3>
+			</ion-item>
+		</ion-list>
+		<ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+		   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+		 </ion-infinite-scroll>		
+	</ion-list>
+
+
+		
+	  <ion-list *ngSwitchCase="'usersetting'">
+			<ion-item>
+			  <ion-label > Get News</ion-label>
+			 <ion-toggle item-left  color="button"  name="sendNews"  [(ngModel)]="sendNews"  (ionChange)="sendNewsChange(sendNews)"></ion-toggle>
+			</ion-item>
+			<ion-item>
+			  <ion-label >Get SMS</ion-label>
+			  <ion-toggle item-left  color="button" name="sendSmsNews" [(ngModel)]="sendSmsNews"  (ionChange)="sendSmsNewsChange(sendSmsNews)"></ion-toggle>
+			</ion-item>
+			
+			<ion-item  >
+					<ion-label><a class="rateLink"  target="_blank" href="https://play.google.com/store/apps/details?id=raznameh.user.app">Rate US</a></ion-label>
+					<ion-icon  name="md-star-half" item-start ></ion-icon>
+			</ion-item>			
+			<ion-item  (click)='shareRecipe()'>
+					<ion-label  >Share whit Friends</ion-label> 
+					<ion-icon  name="md-share" item-start ></ion-icon>
+			</ion-item>			
+			<ion-item  (click)='showIntroduction()'>
+					<ion-label  >About Us</ion-label>
+					<ion-icon  name="ios-alert-outline" item-start ></ion-icon>
+			</ion-item>
+			<ion-item   (click)='showHelp()'>
+					<ion-label  >Support</ion-label>
+					<ion-icon  name="ios-help-circle-outline" item-start ></ion-icon>
+			</ion-item>
+			<ion-item   (click)='showVersion()'>
+					<ion-label  >Program Version </ion-label>
+					<ion-icon  name="ios-construct-outline" item-start ></ion-icon>
+			</ion-item>
+			<ion-item  (click)='logoutProgram()'>
+					<ion-label  >Logout</ion-label>
+					<ion-icon  name="ios-exit-outline" item-start ></ion-icon>
+			</ion-item>
+			
+		</ion-list>
+
+	</div>  
+</ion-content>

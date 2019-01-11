@@ -1,0 +1,33 @@
+<ion-header>
+	<ion-navbar no-border-bottom [(ngModel)]="siteContentNav">
+		<ion-segment>
+			  <ion-segment-button value="raznamehHome" (ionSelect)="loadItemList()">
+				Home
+			  </ion-segment-button>
+		</ion-segment>
+	</ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  	<div [ngSwitch]="siteContentNav">
+		<ion-list *ngSwitchCase="'raznamehHome'" > 
+				<ion-searchbar  
+				  [(ngModel)]="myInput"
+				  [showCancelButton]="shouldShowCancel"
+				  [debounce]="2500"
+				  placeholder="Search Word"
+				  (ionInput)="onInput($event ,0)"
+				  (ionCancel)="onSearchCancel($event)">
+				</ion-searchbar>
+		
+				<ion-item    text-wrap   inset *ngFor="let item of ConsultationList"  item-start  >
+					<h1 (click)="goToWordView(item)" >{{item?.word}}</h1>
+					<button  clear *ngIf="item?.soundUrl > '' "  no-lines ion-button icon-only item-end (click)="playSound(item)">  <ion-icon name="md-volume-down" larger></ion-icon>   </button>
+				</ion-item>
+			<ion-infinite-scroll (ionInfinite)="doConsultationInfinite($event)">
+			   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+			 </ion-infinite-scroll>				
+		</ion-list>	
+	</div>			
+</ion-content>

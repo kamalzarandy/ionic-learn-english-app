@@ -1,0 +1,119 @@
+<!--
+  Generated template for the WordPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+		<ion-item color="navbar"  text-wrap  no-lines text-center>
+		    <ion-title text-center>{{ wordTitle }}</ion-title>
+		</ion-item>		
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-card>
+	  <ion-card-header text-center>
+			<h1 >{{wordItem?.word}}</h1>
+	  </ion-card-header>
+	  <ion-card-content text-center>
+				<button color="navbar"  *ngIf="doNotshowMeaning == 1 "  ion-button  (click)="showMeaning(wordItem)">
+					Show Meaning
+				</button>			
+				<button color="navbar"  *ngIf="wordItem?.soundUrl > '' "  ion-button icon-only (click)="playSound(wordItem)">
+					<ion-icon name="md-volume-down"></ion-icon>
+				</button>
+	  	  </ion-card-content>
+	</ion-card>
+	<ion-card *ngIf=" doNotshowMeaning == 1 ">
+	  <ion-card-header text-center>
+			<h2 >Read Count</h2>
+	  </ion-card-header>
+	  <ion-card-content  >
+		<ion-grid>
+		  <ion-row>
+			<ion-col col-4>Remember</ion-col>
+			<ion-col col-4> Don't remember </ion-col>
+			<ion-col col-4> Total read </ion-col>
+		  </ion-row>
+		  <ion-row>
+			<ion-col col-4><ion-badge  >{{userData?.read_true_count}}</ion-badge></ion-col>
+			<ion-col col-4> <ion-badge  >{{userData?.read_false_count}}</ion-badge></ion-col>
+			<ion-col col-4> <ion-badge  >{{userData?.read_count}}</ion-badge></ion-col>
+		  </ion-row>
+		</ion-grid>
+	  
+
+	  </ion-card-content>
+	</ion-card>
+	<ion-card  *ngIf="eng_translate > '' ">
+	  <ion-card-header text-center>
+			<h2 >Meaning</h2>
+	  </ion-card-header>
+	  <ion-card-content  *ngIf="eng_translate > '' ">
+		<div style="text-align:justify;" class="item item-text-wrap" [innerHTML]="eng_translate"> </div>
+	  </ion-card-content>
+	</ion-card>
+	<ion-card *ngIf="per_translate > '' ">
+	  <ion-card-header text-center>
+			<h2 >Persian meaning</h2>
+	  </ion-card-header>
+	  <ion-card-content >
+		<div style="text-align:justify;" class="item item-text-wrap" [innerHTML]="per_translate"> </div>
+	  </ion-card-content>
+	</ion-card>
+	<ion-card  *ngIf="verb > '' ">
+	  <ion-card-header text-center>
+			<h2 >Verb</h2>
+	  </ion-card-header>
+	  <ion-card-content >
+			{{verb}}
+	  </ion-card-content>
+	</ion-card>
+	<ion-card  *ngIf="noun > '' ">
+	  <ion-card-header text-center>
+			<h2 >Noun</h2>
+	  </ion-card-header>
+	  <ion-card-content >
+			{{noun}}
+	  </ion-card-content>
+	</ion-card>
+	<ion-card  *ngIf="adjective > '' ">
+	  <ion-card-header text-center>
+			<h2 >Adjective</h2>
+	  </ion-card-header>
+	  <ion-card-content >
+			{{adjective}}
+	  </ion-card-content>
+	</ion-card>
+
+</ion-content>
+<ion-footer >
+  <ion-toolbar   color="bar" >
+				<button  *ngIf=" loadType == 1 &&  wordItem?.usw_id <= '' "  ion-button (click)="addToList(wordItem)">
+					Add to my learning list
+				</button>
+					<button icon-end *ngIf=" loadType == 2  "  ion-button (click)="nextWord(wordItem ,2)">
+						I Dont Remember
+						<ion-icon name="md-close"></ion-icon>
+					</button>
+					<button  icon-end *ngIf=" loadType == 2  "  ion-button  (click)="playWord()">
+						{{playTitle}}
+					</button>
+					<button  icon-end *ngIf=" loadType == 2  "  ion-button  (click)="nextWord(wordItem ,3)">
+						I Learn It
+					</button>
+					<button  icon-end *ngIf=" loadType == 2  "  ion-button  (click)="nextWord(wordItem ,1)">
+						I Remember
+						<ion-icon name="md-checkmark"></ion-icon>
+					</button>
+					<button  icon-end *ngIf=" adminMobile == 989338880819 ||  adminMobile == 989125101059 "  ion-button  (click)="editWord(wordItem)">
+						edit
+					</button>
+				
+  </ion-toolbar>
+</ion-footer>
